@@ -25,5 +25,6 @@
                 <Font size="29.0" />
             </font>
         </Text>
+      <Button layoutX="465.0" layoutY="334.0" mnemonicParsing="false" onAction="#AddStu" text="Add Student" />
     </children>
 </AnchorPane>

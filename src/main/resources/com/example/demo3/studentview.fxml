@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="456.0" prefWidth="648.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo3.studentController">
+   <children>
+      <Button layoutX="34.0" layoutY="375.0" mnemonicParsing="false" onAction="#backMenu" text="Back to Menu" textFill="#c321c6" />
+      <ImageView fitHeight="283.0" fitWidth="288.0" layoutX="329.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@studentview.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="id" layoutX="70.0" layoutY="165.0" promptText="Fill in your ID" />
+      <TextField fx:id="fullName" layoutX="70.0" layoutY="209.0" promptText="Fill in your Fullname" />
+      <DatePicker fx:id="birthDate" layoutX="70.0" layoutY="255.0" prefHeight="25.0" prefWidth="149.0" promptText="Birthdate" />
+      <Text fill="#c228d3" fontSmoothingType="LCD" layoutX="54.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome,&#10;create an account first." textAlignment="CENTER" wrappingWidth="181.13671875">
+         <font>
+            <Font name="Cambria" size="17.0" />
+         </font>
+      </Text>
+      <Button layoutX="145.0" layoutY="375.0" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="89.0" text="Sign up" textFill="#da33c4" />
+   </children>
+</AnchorPane>

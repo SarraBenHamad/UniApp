@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1434.0" style="-fx-background-color: f5f6ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo3.CalculermoyenneController">
+    <children>
+        <ImageView blendMode="MULTIPLY" fitHeight="711.0" fitWidth="1059.0" layoutX="-505.0" layoutY="-67.0" opacity="0.57" preserveRatio="true">
+            <image>
+                <Image url="@undraw_Calculator_re_alsc.png" />
+            </image>
+            <viewport>
+                <Rectangle2D />
+            </viewport>
+        </ImageView>
+        <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1190.0" layoutY="14.0" opacity="0.61">
+            <image>
+                <Image url="@robot.png" />
+            </image>
+        </ImageView>
+        <ImageView blendMode="MULTIPLY" fitHeight="711.0" fitWidth="1059.0" layoutX="985.0" layoutY="98.0" opacity="0.57" preserveRatio="true">
+            <image>
+                <Image url="@undraw_Calculator_re_alsc.png" />
+            </image>
+            <viewport>
+                <Rectangle2D />
+            </viewport>
+        </ImageView>
+        <Label layoutX="494.0" layoutY="33.0" text="Calculer Moyen " textFill="#4e4e4e">
+            <font>
+                <Font name="Bookman Old Style Bold" size="46.0" />
+            </font>
+        </Label>
+        <Button fx:id="Calculer" layoutX="399.0" layoutY="630.0" mnemonicParsing="false" onAction="#calculate" prefHeight="56.0" prefWidth="146.0" style="-fx-background-color: #966fdf; -fx-border-color: #fff; -fx-border-radius: 7px; -fx-background-radius: 7px;" text="calculate" textFill="WHITE">
+            <font>
+                <Font name="Bell MT Bold" size="27.0" />
+            </font>
+        </Button>
+        <TextField fx:id="moyen" alignment="CENTER" editable="false" layoutX="575.0" layoutY="628.0" prefHeight="46.0" prefWidth="399.0" promptText="Moyen totale" style="-fx-border-color: e5f6ff;">
+            <font>
+                <Font name="Century" size="30.0" />
+            </font>
+        </TextField>
+        <Button fx:id="back" onAction="#back" layoutX="49.0" layoutY="53.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="96.0" style="-fx-background-color: #FFF;" text="Back →" textAlignment="CENTER">
+            <font>
+                <Font name="Marlett" size="18.0" />
+            </font>
+        </Button>
+        <GridPane fx:id="container" layoutX="245.0" layoutY="126.0" prefHeight="468.0" prefWidth="1152.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="557.5999633789063" minWidth="10.0" prefWidth="557.5999633789063" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="528.6000122070312" minWidth="10.0" prefWidth="418.4000366210937" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="53.9999755859375" minHeight="10.0" prefHeight="53.9999755859375" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="69.19998779296876" minHeight="10.0" prefHeight="56.0000244140625" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="81.39999999999999" minHeight="10.0" prefHeight="56.80001220703123" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="91.40001220703124" minHeight="10.0" prefHeight="59.00000610351563" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="81.79996337890623" minHeight="10.0" prefHeight="81.79996337890623" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <AnchorPane id="Web" fx:id="Web" prefHeight="89.0" prefWidth="482.0" GridPane.rowIndex="3">
+                    <children>
+                        <Label layoutY="27.0" text="developpement web :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="317.0" layoutY="21.0" prefHeight="36.0" prefWidth="226.0" promptText="Exam tp" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="Java" fx:id="Java" prefHeight="71.0" prefWidth="405.0" GridPane.rowIndex="5">
+                    <children>
+                        <Label layoutX="8.0" layoutY="27.0" text="Atelier de Java :" textAlignment="CENTER" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="317.0" layoutY="26.0" prefHeight="36.0" prefWidth="226.0" promptText="Exam tp" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="UML" fx:id="UML" prefHeight="71.0" prefWidth="405.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="275.0" layoutY="17.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="14.0" layoutY="27.0" text="Conception :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="373.0" layoutY="19.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="analyseNumerique" fx:id="analyseNumerique" prefHeight="71.0" prefWidth="405.0" GridPane.columnIndex="1">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="275.0" layoutY="23.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="8.0" layoutY="27.0" text="Analyse Numerique :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="370.0" layoutY="23.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="POO" fx:id="POO" prefHeight="71.0" prefWidth="405.0" GridPane.rowIndex="1">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="366.0" layoutY="21.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="14.0" layoutY="27.0" text="Prog Orientée Objet :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="465.0" layoutY="21.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="ProgramtionMath" fx:id="ProgramationMath" prefHeight="55.0" prefWidth="523.0">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="363.0" layoutY="23.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutY="27.0" text="Programation mathématique :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="465.0" layoutY="23.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+
+
+
+
+                <AnchorPane id="archi" fx:id="archi" prefHeight="71.0" prefWidth="405.0" GridPane.rowIndex="4">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="368.0" layoutY="23.0" prefHeight="36.0" prefWidth="38.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="8.0" layoutY="27.0" text="Architecture des ordinateur :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="tp" alignment="CENTER" layoutX="427.0" layoutY="23.0" prefHeight="36.0" prefWidth="38.0" promptText="TP" style="-fx-border-color: e5f6ff;" />
+                        <TextField id="exam" alignment="CENTER" layoutX="485.0" layoutY="23.0" prefHeight="36.0" prefWidth="50.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="SE" fx:id="SE" prefHeight="71.0" prefWidth="405.0" GridPane.rowIndex="2">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="365.0" layoutY="23.0" prefHeight="36.0" prefWidth="38.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="8.0" layoutY="27.0" text="Systemes d'exploitation :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="tp" alignment="CENTER" layoutX="425.0" layoutY="23.0" prefHeight="36.0" prefWidth="38.0" promptText="TP" style="-fx-border-color: e5f6ff;" />
+                        <TextField id="exam" alignment="CENTER" layoutX="485.0" layoutY="23.0" prefHeight="36.0" prefWidth="50.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="Droit" fx:id="droit" prefHeight="71.0" prefWidth="405.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="282.0" layoutY="19.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="14.0" layoutY="27.0" text="Droits de l'Homme :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="379.0" layoutY="19.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="Francais" fx:id="fr" prefHeight="71.0" prefWidth="405.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="289.0" layoutY="21.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="8.0" layoutY="27.0" text="Francais :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="384.0" layoutY="19.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="Anglais" fx:id="english" prefHeight="71.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="284.0" layoutY="21.0" prefHeight="36.0" prefWidth="77.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="14.0" layoutY="27.0" text="Anglais :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="exam" alignment="CENTER" layoutX="381.0" layoutY="19.0" prefHeight="36.0" prefWidth="78.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane id="Reseau" fx:id="Reseau" prefHeight="78.0" prefWidth="460.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <TextField id="ds" alignment="CENTER" layoutX="284.0" layoutY="23.0" prefHeight="36.0" prefWidth="38.0" promptText="ds" style="-fx-border-color: e5f6ff;" />
+                        <Label layoutX="14.0" layoutY="29.0" text="Réseaux informatique :" textFill="#20333e">
+                            <font>
+                                <Font name="Elephant" size="19.0" />
+                            </font>
+                        </Label>
+                        <TextField id="tp" alignment="CENTER" layoutX="346.0" layoutY="19.0" prefHeight="36.0" prefWidth="38.0" promptText="TP" style="-fx-border-color: e5f6ff;" />
+                        <TextField id="exam" alignment="CENTER" layoutX="417.0" layoutY="19.0" prefHeight="36.0" prefWidth="50.0" promptText="Exam" style="-fx-border-color: e5f6ff;" />
+                    </children>
+                </AnchorPane>
+            </children>
+            <opaqueInsets>
+                <Insets bottom="2.0" right="1.0" top="2.0" />
+            </opaqueInsets>
+        </GridPane>
+        <Button defaultButton="true" layoutX="1046.0" layoutY="638.0" mnemonicParsing="false" onAction="#save" text="Save">
+            <font>
+                <Font name="Bookman Old Style" size="21.0" />
+            </font>
+        </Button>
+    </children>
+</Pane>

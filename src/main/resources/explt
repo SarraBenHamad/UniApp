@@ -1,0 +1,473 @@
+
+
+
+
+package com.example.demo3;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class adminController implements Initializable {
+
+    private String txt;
+    private double nb;
+    private int order;
+
+    @FXML
+    private TableView<Student> table;
+    @FXML
+    private TableColumn<Student, Double> avg;
+    @FXML
+    private TableColumn<Student, String> birthdate;
+    @FXML
+    private TableColumn<Student, Integer> id;
+    @FXML
+    private TableColumn<Student, String> name;
+
+    private MongoDBManager manager = new MongoDBManager();
+    private ObservableList<Student> list;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            list = FXCollections.observableArrayList(manager.getStudents(nb, -1));
+
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            birthdate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+            avg.setCellValueFactory(new PropertyValueFactory<>("average"));
+
+            table.setItems(list);
+
+            table.setRowFactory(tv -> new TableRow<>() {
+                @Override
+                protected void updateItem(Student item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setStyle("");
+                    } else {
+                        setStyle(item.getAverage() > 10 ? "-fx-background-color: lightgreen;" : "-fx-background-color: indianred;");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Initialization error: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void deleteSelectedStudent(ActionEvent event) {
+        Student selectedStudent = table.getSelectionModel().getSelectedItem();
+        if (selectedStudent != null) {
+            manager.deleteStudent(selectedStudent.getId());
+            table.getItems().remove(selectedStudent);
+        } else {
+            showErrorAlert("No student selected for deletion");
+        }
+    }
+
+@FXML
+private void updateSelectedStudent(ActionEvent event) {
+    Student selectedStudent = table.getSelectionModel().getSelectedItem();
+    if (selectedStudent != null) {
+        showUpdateDialog(selectedStudent);
+    } else {
+        showErrorAlert("No student selected for update");
+    }
+}
+
+private void showUpdateDialog(Student student) {
+        Dialog<Student> dialog = new Dialog<>();
+        dialog.setTitle("Update Student");
+        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+        TextField nameField = new TextField(student.getName());
+        TextField birthDateField = new TextField(student.getBirthDate()); GridPane grid = new GridPane();
+        grid.add(new Label("Name:"), 0, 0); grid.add(nameField, 1, 0);
+        grid.add(new Label("Birth Date:"), 0, 1);
+        grid.add(birthDateField, 1, 1);
+        // Add grade fields for each subject
+     int rowIndex = 2;
+     for (Subject grade : student.getGrades()) {
+         grid.add(new Label(grade.getName() + " Grade:"), 0, rowIndex);
+     } Note note = grade.getNote(); // Add text fields for DS, TP, and Exam grades if they exist
+    if (note.getDs() != 0) {
+        TextField dsField = new TextField(String.valueOf(note.getDs()));
+        grid.add(new Label("DS:"), 1, rowIndex); grid.add(dsField, 2, rowIndex); }
+    if (note.getTp() != 0) {
+        TextField tpField = new TextField(String.valueOf(note.getTp()));
+
+        grid.add(new Label("TP:"), 3, rowIndex); grid.add(tpField, 4, rowIndex); }
+    TextField examField = new TextField(String.valueOf(note.getExam()));
+    grid.add(new Label("Exam:"), 5, rowIndex); grid.add(examField, 6, rowIndex); rowIndex++; }
+    dialog.getDialogPane().setContent(grid);
+    dialog.setResultConverter(dialogButton -> { if (dialogButton == updateButtonType)
+    { student.setFullname(nameField.getText());
+        student.setBirthDate(birthDateField.getText());
+        // Update each grade
+        int i = 0; for (Subject grade : student.getGrades()) {
+            Note note = grade.getNote(); // Update DS grade if applicabl
+         if (note.getDs() != 0) { TextField dsField = (TextField) grid.getChildren().get(i * 7 + 2);
+             double ds = Double.parseDouble(dsField.getText()); note.setDs(ds); }
+         // Update TP grade if applicabl
+        if (note.getTp() != 0)
+        { TextField tpField = (TextField) grid.getChildren().get(i * 7 + 4);
+            double tp = Double.parseDouble(tpField.getText());
+            note.setTp(tp);
+        } // Update Exam grade
+         TextField examField = (TextField) grid.getChildren().get(i * 7 + 6);
+        double exam = Double.parseDouble(examField.getText());
+        note.setExam(exam); i++; } return student; } return null; });
+    dialog.showAndWait().ifPresent(updatedStudent -> { manager.updateStudent(updatedStudent); table.refresh(); }); }
+    }
+
+/*
+   private void showUpdateDialog(Student student) {
+       Dialog<Student> dialog = new Dialog<>();
+       dialog.setTitle("Update Student");
+
+       ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+       dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+
+       TextField nameField = new TextField(student.getName());
+       TextField birthDateField = new TextField(student.getBirthDate());
+
+       GridPane grid = new GridPane();
+       grid.add(new Label("Name:"), 0, 0);
+       grid.add(nameField, 1, 0);
+       grid.add(new Label("Birth Date:"), 0, 1);
+       grid.add(birthDateField, 1, 1);
+
+       // Add grade fields for each subject
+       int rowIndex = 2;
+       for (Subject grade : student.getGrades()) {
+           grid.add(new Label(grade.getName() + " Grade:"), 0, rowIndex);
+           Note note = grade.getNote();
+
+           // Add text fields for DS, TP, and Exam grades if they exist
+           if (note.getDs() != 0) {
+               TextField dsField = new TextField(String.valueOf(note.getDs()));
+               grid.add(new Label("DS:"), 1, rowIndex);
+               grid.add(dsField, 2, rowIndex);
+           }
+
+           if (note.getTp() != 0) {
+               TextField tpField = new TextField(String.valueOf(note.getTp()));
+               grid.add(new Label("TP:"), 3, rowIndex);
+               grid.add(tpField, 4, rowIndex);
+           }
+
+           TextField examField = new TextField(String.valueOf(note.getExam()));
+           grid.add(new Label("Exam:"), 5, rowIndex);
+           grid.add(examField, 6, rowIndex);
+
+           rowIndex++;
+       }
+
+       dialog.getDialogPane().setContent(grid);
+
+       dialog.setResultConverter(dialogButton -> {
+           if (dialogButton == updateButtonType) {
+               student.setFullname(nameField.getText());
+               student.setBirthDate(birthDateField.getText());
+
+               // Update each grade
+               int i = 0;
+               for (Subject grade : student.getGrades()) {
+                   Note note = grade.getNote();
+                   // Update DS grade if applicable
+                   if (note.getDs() != 0) {
+                      TextField dsField = (TextField) grid.getChildren().get(i * 5 + 2);
+                       Label dsLabel = (Label) grid.getChildren().get(i * 5 + 2);
+
+                       double ds = Double.parseDouble(dsField.getText());
+                       note.setDs(ds);
+                   }
+                   // Update TP grade if applicable
+                   if (note.getTp() != 0) {
+                       TextField tpField = (TextField) grid.getChildren().get(i * 5 + 4);
+                       double tp = Double.parseDouble(tpField.getText());
+                       note.setTp(tp);
+                   }
+                   // Update Exam grade
+                   TextField examField = (TextField) grid.getChildren().get(i * 5 + 6);
+                   double exam = Double.parseDouble(examField.getText());
+                   note.setExam(exam);
+                   i++;
+               }
+               return student;
+           }
+           return null;
+       });
+
+       dialog.showAndWait().ifPresent(updatedStudent -> {
+           manager.updateStudent(updatedStudent);
+           table.refresh();
+       });
+   }
+/*
+private void showUpdateDialog(Student student) {
+    Dialog<Student> dialog = new Dialog<>();
+    dialog.setTitle("Update Student");
+
+    ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+
+    TextField nameField = new TextField(student.getName());
+    TextField birthDateField = new TextField(student.getBirthDate());
+
+    GridPane grid = new GridPane();
+    grid.add(new Label("Name:"), 0, 0);
+    grid.add(nameField, 1, 0);
+    grid.add(new Label("Birth Date:"), 0, 1);
+    grid.add(birthDateField, 1, 1);
+
+    // Add grade fields for each subject
+    int rowIndex = 2;
+    for (Subject grade : student.getGrades()) {
+        grid.add(new Label(grade.getName() + " Grade:"), 0, rowIndex);
+        Note note = grade.getNote();
+
+        // Add text fields for DS, TP, and Exam grades if they exist
+        if (note.getDs() != 0) {
+            TextField dsField = new TextField(String.valueOf(note.getDs()));
+            grid.add(new Label("DS:"), 1, rowIndex);
+            grid.add(dsField, 2, rowIndex);
+        }
+
+        if (note.getTp() != 0) {
+            TextField tpField = new TextField(String.valueOf(note.getTp()));
+            grid.add(new Label("TP:"), 3, rowIndex);
+            grid.add(tpField, 4, rowIndex);
+        }
+
+        TextField examField = new TextField(String.valueOf(note.getExam()));
+        grid.add(new Label("Exam:"), 5, rowIndex);
+        grid.add(examField, 6, rowIndex);
+
+        rowIndex++;
+    }
+
+    dialog.getDialogPane().setContent(grid);
+
+    dialog.setResultConverter(dialogButton -> {
+        if (dialogButton == updateButtonType) {
+            student.setFullname(nameField.getText());
+            student.setBirthDate(birthDateField.getText());
+
+            // Update each grade
+            int i = 0;
+            double totalGrade = 0; // Initialize total grade sum
+            for (Subject grade : student.getGrades()) {
+                Note note = grade.getNote();
+                // Update DS grade if applicable
+                if (note.getDs() != 0) {
+                    TextField dsField = (TextField) grid.getChildren().get(i * 5 + 2);
+                    double ds = Double.parseDouble(dsField.getText());
+                    note.setDs(ds);
+                }
+                // Update TP grade if applicable
+                if (note.getTp() != 0) {
+                    TextField tpField = (TextField) grid.getChildren().get(i * 5 + 4);
+                    double tp = Double.parseDouble(tpField.getText());
+                    note.setTp(tp);
+                }
+                // Update Exam grade
+                TextField examField = (TextField) grid.getChildren().get(i * 5 + 6);
+                double exam = Double.parseDouble(examField.getText());
+                note.setExam(exam);
+
+                // Recalculate total grade
+                totalGrade += exam; // Add exam grade to total
+
+                i++;
+            }
+
+            // Calculate average grade
+            double average = totalGrade / student.getGrades().size();
+            student.setAverage(average); // Set the new average
+
+            return student;
+        }
+        return null;
+    });
+
+    dialog.showAndWait().ifPresent(updatedStudent -> {
+        manager.updateStudent(updatedStudent);
+        table.refresh();
+    });
+}
+/*
+private void showUpdateDialog(Student student) {
+    // Dialog setup code...
+    Dialog<Student> dialog = new Dialog<>();
+    dialog.setTitle("Update Student");
+
+    ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+
+    TextField nameField = new TextField(student.getName());
+    TextField birthDateField = new TextField(student.getBirthDate());
+
+    GridPane grid = new GridPane();
+    grid.add(new Label("Name:"), 0, 0);
+    grid.add(nameField, 1, 0);
+    grid.add(new Label("Birth Date:"), 0, 1);
+    grid.add(birthDateField, 1, 1);
+
+    // Add grade fields for each subject
+    int rowIndex = 2;
+    for (Subject grade : student.getGrades()) {
+        grid.add(new Label(grade.getName() + " Grade:"), 0, rowIndex);
+        Note note = grade.getNote();
+
+        // Add text fields for DS, TP, and Exam grades if they exist
+        if (note.getDs() != 0) {
+            TextField dsField = new TextField(String.valueOf(note.getDs()));
+            grid.add(new Label("DS:"), 1, rowIndex);
+            grid.add(dsField, 2, rowIndex);
+        }
+
+        if (note.getTp() != 0) {
+            TextField tpField = new TextField(String.valueOf(note.getTp()));
+            grid.add(new Label("TP:"), 3, rowIndex);
+            grid.add(tpField, 4, rowIndex);
+        }
+
+        TextField examField = new TextField(String.valueOf(note.getExam()));
+        grid.add(new Label("Exam:"), 5, rowIndex);
+        grid.add(examField, 6, rowIndex);
+
+        rowIndex++;
+    }
+
+    dialog.getDialogPane().setContent(grid);
+    dialog.setResultConverter(dialogButton -> {
+        if (dialogButton == updateButtonType) {
+            // Update each grade and recalculate average
+            double totalGrade = 0;
+            for (Subject grade : student.getGrades()) {
+                Note note = grade.getNote();
+                TextField dsField = (TextField) grid.lookup("#ds_" + grade.getName());
+                TextField tpField = (TextField) grid.lookup("#tp_" + grade.getName());
+                TextField examField = (TextField) grid.lookup("#exam_" + grade.getName());
+
+                // Update grades
+                note.setDs(Double.parseDouble(dsField.getText()));
+                note.setTp(Double.parseDouble(tpField.getText()));
+                note.setExam(Double.parseDouble(examField.getText()));
+
+                // Recalculate total grade
+                totalGrade += note.getExam(); // Assuming exam grade is always present
+            }
+
+            // Recalculate average
+            double average = totalGrade / student.getGrades().size();
+            student.setAverage(average);
+
+            // Update student in the database
+            manager.updateStudent(student);
+
+            // Refresh table view
+            table.refresh();
+
+            return student;
+        }
+        return null;
+    });
+
+    dialog.showAndWait();
+}*/
+
+    void initData(double nb, int order, String txt) {
+        this.nb = nb;
+        this.order = order;
+        this.txt = txt;
+    }
+
+    public void backMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo3/hello-view.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Failed to go back to the menu");
+        }
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}
+*/
+
+
+
+
+
+
+
+
+
+
+/*
+    private void showUpdateDialog(Student student) {
+        Dialog<Student> dialog = new Dialog<>();
+        dialog.setTitle("Update Student");
+
+        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+
+        TextField nameField = new TextField(student.getName());
+        TextField birthDateField = new TextField(student.getBirthDate());
+        TextField averageField = new TextField(String.valueOf(student.getAverage()));
+
+        GridPane grid = new GridPane();
+        grid.add(new Label("Name:"), 0, 0);
+        grid.add(nameField, 1, 0);
+        grid.add(new Label("Birth Date:"), 0, 1);
+        grid.add(birthDateField, 1, 1);
+        grid.add(new Label("Average:"), 0, 2);
+        grid.add(averageField, 1, 2);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == updateButtonType) {
+                student.setFullname(nameField.getText());
+                student.setBirthDate(birthDateField.getText());
+                student.setAverage(Double.parseDouble(averageField.getText()));
+                return student;
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresent(updatedStudent -> {
+            manager.updateStudent(updatedStudent);
+            table.refresh();
+        });
+    }
+*/

@@ -29,7 +29,7 @@ public class studentController {
         try {
             studentId = Integer.parseInt(id.getText());
         } catch (NumberFormatException e) {
-            showErrorAlert("Invalid number entered!");
+            showErrorAlert("Invalid ID number entered!");
             return;
         }
 

@@ -10,6 +10,8 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MongoDBManager {
@@ -75,7 +77,7 @@ public class MongoDBManager {
                     double ds = gradeDoc.getDouble("ds");
                     double tp = gradeDoc.getDouble("tp");
                     double exam = gradeDoc.getDouble("exam");
-                    Note note = new Note(ds, tp, exam); // Create a Note object
+                    Note note = new Note(exam, ds, tp); // Create a Note object
                     Subject subject = new Subject(subjectName, coef, note); // Create a Subject object
                     grades.add(subject);
                 }
@@ -113,6 +115,25 @@ public class MongoDBManager {
         );
     }
 
+    public Map<String, Double[]> getStudentGrades(int studentId) {
+        Document studentDoc = collection.find(Filters.eq("id", studentId)).first();
+        if (studentDoc == null) {
+            return new HashMap<>();
+        }
+
+        Map<String, Double[]> grades = new HashMap<>();
+        ArrayList<Document> gradesDocuments = (ArrayList<Document>) studentDoc.get("grades");
+        for (Document gradeDoc : gradesDocuments) {
+            String subjectName = gradeDoc.getString("subject");
+            Double exam = gradeDoc.getDouble("exam");
+            Double ds = gradeDoc.getDouble("ds");
+            Double tp = gradeDoc.getDouble("tp");
+
+            grades.put(subjectName, new Double[]{exam, ds, tp});
+        }
+
+        return grades;
+    }
     public void close() {
         mongoClient.close();
     }

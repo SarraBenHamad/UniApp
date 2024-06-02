@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class adminController implements Initializable {
 
@@ -40,6 +42,7 @@ public class adminController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         try {
             list = FXCollections.observableArrayList(manager.getStudents(nb, -1));
 
@@ -83,11 +86,12 @@ public class adminController implements Initializable {
         Student selectedStudent = table.getSelectionModel().getSelectedItem();
         if (selectedStudent != null) {
             showUpdateDialog(selectedStudent);
+
         } else {
             showErrorAlert("No student selected for update");
         }
     }
-/* hedhaa yeemchiiiii
+
     private void showUpdateDialog(Student student) {
         Dialog<Student> dialog = new Dialog<>();
         dialog.setTitle("Update Student");
@@ -95,12 +99,11 @@ public class adminController implements Initializable {
         ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
 
-        // Create text fields for each field to update
         TextField nameField = new TextField(student.getName());
         TextField birthDateField = new TextField(student.getBirthDate());
         TextField averageField = new TextField(String.valueOf(student.getAverage()));
 
-        // Create text fields for each subject's grade
+        // Initialize TextField objects for each grade
         TextField javaExamField = new TextField();
         TextField mathematicsExamField = new TextField();
         TextField mathematicsDsField = new TextField();
@@ -110,6 +113,41 @@ public class adminController implements Initializable {
         TextField computersExamField = new TextField();
         TextField computersDsField = new TextField();
         TextField computersTpField = new TextField();
+
+        // Fetch existing grades for the student
+        Map<String, Double[]> grades = manager.getStudentGrades(student.getId());
+
+        // Set existing grades to the TextField objects
+        if (grades.containsKey("java")) {
+            javaExamField.setText(grades.get("java")[0].toString());
+        }
+        if (grades.containsKey("mathematics")) {
+            Double[] mathGrades = grades.get("mathematics");
+            mathematicsExamField.setText(mathGrades[0].toString());
+            if (mathGrades.length > 1 && mathGrades[1] != null) {
+                mathematicsDsField.setText(mathGrades[1].toString());
+            }
+        }
+        if (grades.containsKey("architecture")) {
+            Double[] archGrades = grades.get("architecture");
+            architectureExamField.setText(archGrades[0].toString());
+            if (archGrades.length > 1 && archGrades[1] != null) {
+                architectureDsField.setText(archGrades[1].toString());
+                if (archGrades.length > 2 && archGrades[2] != null) {
+                    architectureTpField.setText(archGrades[2].toString());
+                }
+            }
+        }
+        if (grades.containsKey("computers")) {
+            Double[] compGrades = grades.get("computers");
+            computersExamField.setText(compGrades[0].toString());
+            if (compGrades.length > 1 && compGrades[1] != null) {
+                computersDsField.setText(compGrades[1].toString());
+                if (compGrades.length > 2 && compGrades[2] != null) {
+                    computersTpField.setText(compGrades[2].toString());
+                }
+            }
+        }
 
         GridPane grid = new GridPane();
         grid.add(new Label("Name:"), 0, 0);
@@ -141,336 +179,106 @@ public class adminController implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButtonType) {
-                // Update the student object with the new values from the text fields
-                student.setFullname(nameField.getText());
-                student.setBirthDate(birthDateField.getText());
-
-                // Clear existing grades before adding new ones
-                student.initGrades();
-
-                // Add grades for each subject
-                addGradeIfNotEmpty(javaExamField.getText(), "java", student, 1, true, false, false);
-                addGradeIfNotEmpty(mathematicsExamField.getText(), "mathematics", student, 2, true, true, false);
-                addGradeIfNotEmpty(mathematicsDsField.getText(), "mathematics", student, 2, true, true, false);
-                addGradeIfNotEmpty(architectureExamField.getText(), "architecture", student, 1, true, true, true);
-                addGradeIfNotEmpty(architectureDsField.getText(), "architecture", student, 1, true, true, true);
-                addGradeIfNotEmpty(architectureTpField.getText(), "architecture", student, 1, true, true, true);
-                addGradeIfNotEmpty(computersExamField.getText(), "computers", student, 1, true, true, true);
-                addGradeIfNotEmpty(computersDsField.getText(), "computers", student, 1, true, true, true);
-                addGradeIfNotEmpty(computersTpField.getText(), "computers", student, 1, true, true, true);
-
-                // Recalculate the average
-                student.calculateAverage();
-                // Update the average field
-                averageField.setText(String.valueOf(student.getAverage()));
-                return student;
-            }
-            return null;
-        });
-
-        // Show the dialog
-        Optional<Student> result = dialog.showAndWait();
-        // Handle the result if needed
-        result.ifPresent(updatedStudent -> {
-            // Perform actions with the updated student if needed
-            // Refresh the table view to show updated student data
-            table.refresh();
-        });
-    }
-
-    // Utility method to add grade if the input is not empty
-    private void addGradeIfNotEmpty(String gradeInput, String subjectName, Student student, int coef, boolean hasExam, boolean hasDs, boolean hasTp) {
-        if (!gradeInput.isEmpty()) {
-            double grade = Double.parseDouble(gradeInput);
-            Note note = null;
-            if (hasExam && hasDs && hasTp) {
-                note = new Note(grade, grade, grade); // You can adjust this as per the actual input fields
-            } else if (hasExam && hasDs) {
-                note = new Note(grade, grade);
-            } else if (hasExam) {
-                note = new Note(grade);
-            }
-            Subject subject = new Subject(subjectName, coef, note);
-            student.addGrade(subject);
-        }
-    }
-*/
-
-    // rajja partie hedhi
-    private void showUpdateDialog(Student student) {
-        Dialog<Student> dialog = new Dialog<>();
-        dialog.setTitle("Update Student");
-
-        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
-
-        // Create text fields for each field to update
-        TextField nameField = new TextField(student.getName());
-        TextField birthDateField = new TextField(student.getBirthDate());
-        TextField averageField = new TextField(String.valueOf(student.getAverage()));
-
-        // Create text fields for each subject's grade
-        TextField javaExamField = new TextField();
-        TextField mathematicsExamField = new TextField();
-        TextField mathematicsDsField = new TextField();
-        TextField architectureExamField = new TextField();
-        TextField architectureDsField = new TextField();
-        TextField architectureTpField = new TextField();
-        TextField computersExamField = new TextField();
-        TextField computersDsField = new TextField();
-        TextField computersTpField = new TextField();
-
-
-
-        GridPane grid = new GridPane();
-        grid.add(new Label("Name:"), 0, 0);
-        grid.add(nameField, 1, 0);
-        grid.add(new Label("Birth Date:"), 0, 1);
-        grid.add(birthDateField, 1, 1);
-        grid.add(new Label("Average:"), 0, 2);
-        grid.add(averageField, 1, 2);
-
-        // Add fields for each subject's grade
-        grid.add(new Label("Java Exam:"), 0, 3);
-        grid.add(javaExamField, 1, 3);
-        grid.add(new Label("Mathematics Exam:"), 0, 4);
-        grid.add(mathematicsExamField, 1, 4);
-        grid.add(new Label("Mathematics DS:"), 0, 5);
-        grid.add(mathematicsDsField, 1, 5);
-        grid.add(new Label("Architecture Exam:"), 0, 6);
-        grid.add(architectureExamField, 1, 6);
-        grid.add(new Label("Architecture DS:"), 0, 7);
-        grid.add(architectureDsField, 1, 7);
-        grid.add(new Label("Architecture TP:"), 0, 8);
-        grid.add(architectureTpField, 1, 8);
-        grid.add(new Label("Computers Exam:"), 0, 9);
-        grid.add(computersExamField, 1, 9);
-        grid.add(new Label("Computers DS:"), 0, 10);
-        grid.add(computersDsField, 1, 10);
-        grid.add(new Label("Computers TP:"), 0, 11);
-        grid.add(computersTpField, 1, 11);
-
-        dialog.getDialogPane().setContent(grid);
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButtonType) {
-                // Update the student object with the new values from the text fields
-                student.setFullname(nameField.getText());
-                student.setBirthDate(birthDateField.getText());
-
-                // Clear existing grades before adding new ones
-                student.initGrades();
-
-                // Add grades for each subject
-                addGradeIfNotEmpty(javaExamField.getText(), "java", student, 1, true, false, false);
-                addGradeIfNotEmpty(mathematicsExamField.getText(), "mathematics", student, 2, true, true, false);
-                addGradeIfNotEmpty(mathematicsDsField.getText(), "mathematics", student, 2, true, true, false);
-                addGradeIfNotEmpty(architectureExamField.getText(), "architecture", student, 1, true, true, true);
-                addGradeIfNotEmpty(architectureDsField.getText(), "architecture", student, 1, true, true, true);
-                addGradeIfNotEmpty(architectureTpField.getText(), "architecture", student, 1, true, true, true);
-                addGradeIfNotEmpty(computersExamField.getText(), "computers", student, 1, true, true, true);
-                addGradeIfNotEmpty(computersDsField.getText(), "computers", student, 1, true, true, true);
-                addGradeIfNotEmpty(computersTpField.getText(), "computers", student, 1, true, true, true);
-
-                // Recalculate the average
-                student.calculateAverage();
-                // Update the average field
-                averageField.setText(String.valueOf(student.getAverage()));
-                return student;
-            }
-            return null;
-        });
-
-        // Show the dialog
-        Optional<Student> result = dialog.showAndWait();
-        // Handle the result if needed
-        result.ifPresent(updatedStudent -> {
-            // Perform actions with the updated student if needed
-            // Refresh the table view to show updated student data
-            table.refresh();
-
-            // Save the updated student to the database
-            saveStudent(updatedStudent);
-        });
-    }
-
-
-
-
-    // Method to save the updated student to the database
-    private void saveStudent(Student student) {
-        MongoDBManager manager = new MongoDBManager();
-        manager.updateStudent(student); // Implement the updateStudent method in your MongoDBManager class
-        manager.close();
-    }
-
-    private void addGradeIfNotEmpty(String gradeInput, String subjectName, Student student, int coef, boolean hasExam, boolean hasDs, boolean hasTp) {
-        if (!gradeInput.isEmpty()) {
-            double grade = Double.parseDouble(gradeInput);
-            Note note = null;
-            if (hasExam && hasDs && hasTp) {
-                note = new Note(grade, grade, grade); // Adjust this to use the correct inputs
-            } else if (hasExam && hasDs) {
-                note = new Note(grade, grade);
-            } else if (hasExam) {
-                note = new Note(grade);
-            }
-            Subject subject = new Subject(subjectName, coef, note);
-            student.addGrade(subject);
-        }
-    }
-/*
-    private void showUpdateDialog(Student student) {
-        Dialog<Student> dialog = new Dialog<>();
-        dialog.setTitle("Update Student");
-
-        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
-
-        // Create text fields for each field to update
-        TextField nameField = new TextField(student.getName());
-        TextField birthDateField = new TextField(student.getBirthDate());
-        TextField averageField = new TextField(String.valueOf(student.getAverage()));
-
-        // Create text fields for each subject's grade
-        TextField javaExamField = new TextField();
-        TextField mathematicsExamField = new TextField();
-        TextField mathematicsDsField = new TextField();
-        TextField architectureExamField = new TextField();
-        TextField architectureDsField = new TextField();
-        TextField computersExamField = new TextField();
-        TextField computersDsField = new TextField();
-
-        GridPane grid = new GridPane();
-        grid.add(new Label("Name:"), 0, 0);
-        grid.add(nameField, 1, 0);
-        grid.add(new Label("Birth Date:"), 0, 1);
-        grid.add(birthDateField, 1, 1);
-        grid.add(new Label("Average:"), 0, 2);
-        grid.add(averageField, 1, 2);
-
-        // Add fields for each subject's grade
-        grid.add(new Label("Java Exam:"), 0, 3);
-        grid.add(javaExamField, 1, 3);
-        grid.add(new Label("Mathematics Exam:"), 0, 4);
-        grid.add(mathematicsExamField, 1, 4);
-        grid.add(new Label("Mathematics DS:"), 0, 5);
-        grid.add(mathematicsDsField, 1, 5);
-        grid.add(new Label("Architecture Exam:"), 0, 6);
-        grid.add(architectureExamField, 1, 6);
-        grid.add(new Label("Architecture DS:"), 0, 7);
-        grid.add(architectureDsField, 1, 7);
-        grid.add(new Label("Computers Exam:"), 0, 8);
-        grid.add(computersExamField, 1, 8);
-        grid.add(new Label("Computers DS:"), 0, 9);
-        grid.add(computersDsField, 1, 9);
-
-        dialog.getDialogPane().setContent(grid);
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButtonType) {
-                // Update the student object with the new values from the text fields
-                student.setFullname(nameField.getText());
-                student.setBirthDate(birthDateField.getText());
-
-                // Clear existing grades before adding new ones
-                //student.clearGrades();
-
-                // Add grades for each subject
-                addGradeIfNotEmpty(javaExamField.getText(), "java", student);
-                addGradeIfNotEmpty(mathematicsExamField.getText(), "mathematics", student);
-                addGradeIfNotEmpty(mathematicsDsField.getText(), "mathematics", student);
-                addGradeIfNotEmpty(architectureExamField.getText(), "architecture", student);
-                addGradeIfNotEmpty(architectureDsField.getText(), "architecture", student);
-                addGradeIfNotEmpty(computersExamField.getText(), "computers", student);
-                addGradeIfNotEmpty(computersDsField.getText(), "computers", student);
-
-                // Recalculate the average
-                student.calculateAverage();
-                // Update the average field
-                averageField.setText(String.valueOf(student.getAverage()));
-                return student;
-            }
-            return null;
-        });
-
-        // Show the dialog
-        Optional<Student> result = dialog.showAndWait();
-        // Handle the result if needed
-        result.ifPresent(updatedStudent -> {
-            // Perform actions with the updated student if needed
-        });
-    }
-
-    // Utility method to add grade if the input is not empty
-    private void addGradeIfNotEmpty(String gradeInput, String subjectName, Student student) {
-        if (!gradeInput.isEmpty()) {
-            double grade = Double.parseDouble(gradeInput);
-            int coef = getSubjectCoefficient(subjectName);
-            Note note = new Note(grade);
-            Subject subject = new Subject(subjectName, coef, note);
-            student.addGrade(subject);
-        }
-    }
-
-    // Utility method to get the coefficient for a subject
-    private int getSubjectCoefficient(String subjectName) {
-        switch (subjectName) {
-            case "java":
-                return 1;
-            case "mathematics":
-                return 2;
-            case "architecture":
-                return 1;
-            case "computers":
-                return 1;
-            default:
-                return 0; // Default coefficient
-        }
-    }
-*/
-/* siimple
-    private void showUpdateDialog(Student student) {
-        Dialog<Student> dialog = new Dialog<>();
-        dialog.setTitle("Update Student");
-
-        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
-
-        TextField nameField = new TextField(student.getName());
-        TextField birthDateField = new TextField(student.getBirthDate());
-        TextField averageField = new TextField(String.valueOf(student.getAverage()));
-
-        GridPane grid = new GridPane();
-        grid.add(new Label("Name:"), 0, 0);
-        grid.add(nameField, 1, 0);
-        grid.add(new Label("Birth Date:"), 0, 1);
-        grid.add(birthDateField, 1, 1);
-        grid.add(new Label("Average:"), 0, 2);
-        grid.add(averageField, 1, 2);
-
-        dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButtonType) {
                 student.setFullname(nameField.getText());
                 student.setBirthDate(birthDateField.getText());
                 student.setAverage(Double.parseDouble(averageField.getText()));
+
+                // Clear existing grades before adding new ones
+                student.initGrades();
+
+                // Add grades for each subject
+
+
+                if (!addGradeIfNotEmpty(javaExamField.getText(), "java", student, 1, true, false, false) ||
+                        !addGradeIfNotEmpty(mathematicsExamField.getText(), mathematicsDsField.getText(), "mathematics", student, 2, true, true, false) ||
+                        !addGradeIfNotEmpty(architectureExamField.getText(), architectureDsField.getText(), architectureTpField.getText(), "architecture", student, 1, true, true, true) ||
+                        !addGradeIfNotEmpty(computersExamField.getText(), computersDsField.getText(), computersTpField.getText(), "computers", student, 2, true, true, true)) {
+                    return null ; // Don't close the dialog if any input is invalid
+                }
+
+                // Recalculate the average
+                student.calculateAverage();
+                // Update the average field
+                averageField.setText(String.valueOf(student.getAverage()));
                 return student;
             }
             return null;
         });
 
-        dialog.showAndWait().ifPresent(updatedStudent -> {
+        // Show the dialog
+        Optional<Student> result = dialog.showAndWait();
+        // Handle the result if needed
+        result.ifPresent(updatedStudent -> {
             manager.updateStudent(updatedStudent);
             table.refresh();
         });
     }
 
-*/
+    private boolean addGradeIfNotEmpty(String gradeInputExam, String subjectName, Student student, int coef, boolean hasExam, boolean hasDs, boolean hasTp) {
+        if (!gradeInputExam.isEmpty()) {
+            double exam = Double.parseDouble(gradeInputExam);
+            if (exam >= 0 && exam <= 20) { // Validate grade range
+                Note note = null;
+                if (hasExam && (!hasDs) && (!hasTp)) {
+                    note = new Note(exam);
+                }
+                Subject subject = new Subject(subjectName, coef, note);
+                student.addGrade(subject);
+                return true;
+            } else {
+                // Handle invalid grade input
+                showErrorAlert("Invalid grade input: Grade must be between 0 and 20");
+                return false;
+            }
+        }
+        return true;
+    }
 
+    private boolean addGradeIfNotEmpty(String gradeInputExam, String gradeInputDs, String subjectName, Student student, int coef, boolean hasExam, boolean hasDs, boolean hasTp) {
+        if (!gradeInputExam.isEmpty() && !gradeInputDs.isEmpty()) {
+            double exam = Double.parseDouble(gradeInputExam);
+            double ds = Double.parseDouble(gradeInputDs);
+            if (exam >= 0 && exam <= 20 && ds >= 0 && ds <= 20) { // Validate grade range
+                Note note = null;
+                if (hasExam && hasDs && (!hasTp)) {
+                    note = new Note(exam, ds);
+                }
+                Subject subject = new Subject(subjectName, coef, note);
+                student.addGrade(subject);
+                return true;
+            } else {
+                // Handle invalid grade input
+                showErrorAlert("Invalid grade input: Grades must be between 0 and 20");
+                return false ;
+            }
+        }
+        return true;
+    }
+
+    private boolean addGradeIfNotEmpty(String gradeInputExam, String gradeInputDs, String gradeInputTp, String subjectName, Student student, int coef, boolean hasExam, boolean hasDs, boolean hasTp) {
+        if (!gradeInputExam.isEmpty() && !gradeInputDs.isEmpty() && !gradeInputTp.isEmpty()) {
+            double exam = Double.parseDouble(gradeInputExam);
+            double ds = Double.parseDouble(gradeInputDs);
+            double tp = Double.parseDouble(gradeInputTp);
+            if (exam >= 0 && exam <= 20 && ds >= 0 && ds <= 20 && tp >= 0 && tp <= 20) { // Validate grade range
+                Note note = null;
+                if (hasExam && hasDs && hasTp) {
+                    note = new Note(exam, ds, tp);
+                }
+                Subject subject = new Subject(subjectName, coef, note);
+                student.addGrade(subject);
+                return true;
+            } else {
+                // Handle invalid grade input
+                showErrorAlert("Invalid grade input: Grades must be between 0 and 20");
+                return false;
+            }
+        }
+        return true ;
+    }
 
     void initData(double nb, int order, String txt) {
         this.nb = nb;
@@ -489,6 +297,7 @@ public class adminController implements Initializable {
             showErrorAlert("Failed to go back to the menu");
         }
     }
+
     public void AddStu(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/demo3/studentview.fxml"));

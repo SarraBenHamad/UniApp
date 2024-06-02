@@ -20,7 +20,7 @@
       <TextField fx:id="id" layoutX="70.0" layoutY="165.0" promptText="Fill in your ID" />
       <TextField fx:id="fullName" layoutX="70.0" layoutY="209.0" promptText="Fill in your Fullname" />
       <DatePicker fx:id="birthDate" layoutX="70.0" layoutY="255.0" prefHeight="25.0" prefWidth="149.0" promptText="Birthdate" />
-      <Text fill="#c228d3" fontSmoothingType="LCD" layoutX="54.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome,&#10;create an account first." textAlignment="CENTER" wrappingWidth="181.13671875">
+      <Text fill="#c228d3" fontSmoothingType="LCD" layoutX="34.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome,&#10;Please fill in your information." wrappingWidth="233.13671875">
          <font>
             <Font name="Cambria" size="17.0" />
          </font>

@@ -18,7 +18,7 @@
             <Image url="@moy.jpg" />
          </image>
       </ImageView>
-      <Text fill="#d51af2" layoutX="16.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fill in your grades:" wrappingWidth="208.13671875">
+      <Text fill="#a87cab" layoutX="16.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fill in your grades:" wrappingWidth="208.13671875">
          <font>
             <Font size="23.0" />
          </font>
@@ -65,9 +65,18 @@
             <RowConstraints />
          </rowConstraints>
       </GridPane>
-      <TextField fx:id="moyen" alignment="TOP_CENTER" layoutX="386.0" layoutY="404.0" promptText="Total average" />
-      <Button layoutX="300.0" layoutY="404.0" mnemonicParsing="false" onAction="#calculate" text="Calculate" textFill="#d51af2" />
-      <Button layoutX="544.0" layoutY="404.0" mnemonicParsing="false" onAction="#save" text="Save" textFill="#d51af2" />
-      <Button layoutX="16.0" layoutY="404.0" mnemonicParsing="false" onAction="#back" text="Back Menu" textFill="#d51af2" />
+      <TextField fx:id="moyen" alignment="TOP_CENTER" layoutX="378.0" layoutY="404.0" promptText="Total average" />
+      <Button layoutX="300.0" layoutY="404.0" mnemonicParsing="false" onAction="#calculate" style="-fx-background-color: a87cab;" text="Calculate" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="544.0" layoutY="404.0" mnemonicParsing="false" onAction="#save" style="-fx-background-color: a87cab;" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="16.0" layoutY="404.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: a87cab;" text="Back Menu" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

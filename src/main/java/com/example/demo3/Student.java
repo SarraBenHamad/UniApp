@@ -33,6 +33,7 @@ public class Student {
             this.grades.add(grade);
         else System.out.println("Error :overloaded grades");
     }
+
     public void calculateAverage(){
         float avg= 0;
         int coSum=0;
@@ -44,6 +45,8 @@ public class Student {
         }
         this.average =avg/coSum;
     }
+
+
     public double getAverage(){
         return this.average;
     }

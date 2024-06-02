@@ -9,17 +9,24 @@
 
 <AnchorPane prefHeight="456.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo3.HelloController">
    <children>
-      <ImageView fitHeight="543.0" fitWidth="734.0" layoutX="-66.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="543.0" fitWidth="734.0" layoutX="-66.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@round.jpg" />
+            <Image url="@page1.png" />
          </image>
       </ImageView>
-      <Button layoutX="436.0" layoutY="175.0" mnemonicParsing="false" onAction="#Student" prefHeight="57.0" prefWidth="106.0" style="-fx-background-color: pink;" text="Student" />
-      <Button layoutX="436.0" layoutY="264.0" mnemonicParsing="false" onAction="#Admin" prefHeight="57.0" prefWidth="106.0" style="-fx-background-color: pink;" text="Admin" />
-      <Text layoutX="415.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to UniApp" textAlignment="CENTER" wrappingWidth="147.0390625">
+      <Button layoutX="458.0" layoutY="216.0" mnemonicParsing="false" onAction="#Student" prefHeight="57.0" prefWidth="106.0" style="-fx-background-color: a87cab;" text="Student" textFill="WHITE">
          <font>
-            <Font size="21.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="13.0" />
+         </font></Button>
+      <Button layoutX="458.0" layoutY="296.0" mnemonicParsing="false" onAction="#Admin" prefHeight="57.0" prefWidth="106.0" style="-fx-background-color: #a87cab;" text="Admin" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+      <Text fill="#753079" layoutX="227.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to UniApp" textAlignment="CENTER" wrappingWidth="417.0390625">
+         <font>
+            <Font size="51.0" />
          </font>
       </Text>
+      <Text fill="#837d7d" layoutX="398.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Access as :" wrappingWidth="75.658203125" />
    </children>
 </AnchorPane>

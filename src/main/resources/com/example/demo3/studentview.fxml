@@ -11,20 +11,26 @@
 
 <AnchorPane prefHeight="456.0" prefWidth="648.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo3.studentController">
    <children>
-      <Button layoutX="34.0" layoutY="375.0" mnemonicParsing="false" onAction="#backMenu" text="Back to Menu" textFill="#c321c6" />
-      <ImageView fitHeight="283.0" fitWidth="288.0" layoutX="329.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+      <Button layoutX="34.0" layoutY="375.0" mnemonicParsing="false" onAction="#backMenu" prefHeight="40.0" prefWidth="89.0" style="-fx-background-color: a87cab;" text="Back to&#10; Menu" textFill="#f2f2f2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <ImageView fitHeight="283.0" fitWidth="288.0" layoutX="329.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@studentview.jpg" />
+            <Image url="@page2.png" />
          </image>
       </ImageView>
       <TextField fx:id="id" layoutX="70.0" layoutY="165.0" promptText="Fill in your ID" />
       <TextField fx:id="fullName" layoutX="70.0" layoutY="209.0" promptText="Fill in your Fullname" />
       <DatePicker fx:id="birthDate" layoutX="70.0" layoutY="255.0" prefHeight="25.0" prefWidth="149.0" promptText="Birthdate" />
-      <Text fill="#c228d3" fontSmoothingType="LCD" layoutX="34.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome,&#10;Please fill in your information." wrappingWidth="233.13671875">
+      <Text fill="#a87cab" fontSmoothingType="LCD" layoutX="34.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome,&#10;Please fill in your information." wrappingWidth="283.0">
          <font>
-            <Font name="Cambria" size="17.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Text>
-      <Button layoutX="145.0" layoutY="375.0" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="89.0" text="Sign up" textFill="#da33c4" />
+      <Button layoutX="145.0" layoutY="375.0" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="89.0" style="-fx-background-color: a87cab;" text="Sign up" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

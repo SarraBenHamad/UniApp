@@ -41,6 +41,36 @@ public class adminController implements Initializable {
     private ObservableList<Student> list;
 
     @Override
+   /* public void initialize(URL location, ResourceBundle resources) {
+
+        try {
+            list = FXCollections.observableArrayList(manager.getStudents(nb, -1));
+
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            birthdate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+            avg.setCellValueFactory(new PropertyValueFactory<>("average"));
+
+            table.setItems(list);
+
+            table.setRowFactory(tv -> new TableRow<>() {
+                @Override
+                protected void updateItem(Student item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setStyle("");
+                    } else {
+                        setStyle(item.getAverage() >= 10 ? "-fx-background-color: lightgreen;" : "-fx-background-color: #d57171;");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Initialization error: " + e.getMessage());
+        }
+    }
+*/
+
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
@@ -50,6 +80,19 @@ public class adminController implements Initializable {
             name.setCellValueFactory(new PropertyValueFactory<>("name"));
             birthdate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
             avg.setCellValueFactory(new PropertyValueFactory<>("average"));
+
+            // Custom cell factory for the average column
+            avg.setCellFactory(column -> new TableCell<Student, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(String.format("%.3f", item));  // Format to 3 decimal places
+                    }
+                }
+            });
 
             table.setItems(list);
 

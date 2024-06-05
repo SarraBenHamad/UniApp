@@ -13,14 +13,14 @@ UniApp is a mini Java project with a graphical interface designed to input, stor
 - **IntelliJ IDEA**: Download and install IntelliJ IDEA from [JetBrains](https://www.jetbrains.com/idea/download/).
 - **MongoDB**: Install MongoDB from the [official MongoDB website](https://www.mongodb.com/try/download/community).
 
-Usage
-Getting Started
+## Usage
+### Getting Started
       Launching UniApp:
       Open IntelliJ IDEA.
       In the Project Explorer, locate and run the HelloApplication class.
       The JavaFX application will launch, presenting an interface with options to choose either the Student session or Admin session.
-Example Usage
-Student Session:
+### Example Usage
+-**Student Session:
 
       Click on the "Student Session" button.
       Enter your unique ID, full name, and date of birth in the provided fields.
@@ -29,7 +29,7 @@ Student Session:
       Click "Calculate" to view your average grade.
       Optionally, click "Save" to save your information to the database.
       You can also navigate back to the main menu to switch to the Admin session.
-Admin Session:
+-**Admin Session:
 
       Click on the "Admin Session" button from the main menu.
   View the list of students organized from highest to lowest average grade.

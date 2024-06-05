@@ -19,6 +19,7 @@ UniApp is a mini Java project with a graphical interface designed to input, stor
       Open IntelliJ IDEA.
       In the Project Explorer, locate and run the HelloApplication class.
       The JavaFX application will launch, presenting an interface with options to choose either the Student session or Admin session.
+      
 ### Example Usage
 -**Student Session:
 
@@ -27,15 +28,22 @@ UniApp is a mini Java project with a graphical interface designed to input, stor
       Click "Sign Up" to proceed.
       Enter your grades for each subject, with each grade having its own coefficient.
       Click "Calculate" to view your average grade.
-      Optionally, click "Save" to save your information to the database.
+      Click "Save" to save your information to the database.
       You can also navigate back to the main menu to switch to the Admin session.
 -**Admin Session:
 
       Click on the "Admin Session" button from the main menu.
-  View the list of students organized from highest to lowest average grade.
-  Students with grades over 10 are displayed in green, indicating they passed, while those below 10 are in red.
-  Use the available buttons to:
-  Create a new student record.
-  Delete a student record.
-  Modify student information.
-  All changes made in the Admin session are reflected in the database.
+      View the list of students organized from highest to lowest average grade.
+      Students with grades over 10 are displayed in green, indicating they passed, while those below 10 are in red.
+      Use the available buttons to:
+          Create a new student record.
+          Delete a student record.
+          Modify student information.
+  
+ All changes made in the Admin session are reflected in the database.
+ ## Final Message
+
+Thank you for your interest in UniApp! I hope you find it useful for managing student data efficiently. If you have any questions, feedback, or suggestions for improvement, please don't hesitate to reach out by [email](benhamadsarra@gmail.com). Contributions are also welcome! We appreciate your support.
+
+ 
+  

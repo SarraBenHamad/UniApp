@@ -43,7 +43,7 @@ UniApp is a mini Java project with a graphical interface designed to input, stor
  All changes made in the Admin session are reflected in the database.
  ## Final Message
 
-Thank you for your interest in UniApp! I hope you find it useful for managing student data efficiently. If you have any questions, feedback, or suggestions for improvement, please don't hesitate to reach out by [email](benhamadsarra@gmail.com). Contributions are also welcome! We appreciate your support.
+Thank you for your interest in UniApp! I hope you find it useful for managing student data efficiently. If you have any questions, feedback, or suggestions for improvement, please don't hesitate to reach out by [gmail](benhamadsarra@gmail.com). Contributions are also welcome! We appreciate your support.
 
  
   
